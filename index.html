@@ -1,14 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FG Grade Viewer</title>
+
+    <!-- SEO Meta Tags -->
+    <title>Fuge - Hệ thống Nhập điểm FPT Polytechnic | Grade Viewer</title>
+    <meta name="description"
+        content="Fuge - Công cụ nhập điểm và quản lý điểm số sinh viên cho FPT Polytechnic. Hỗ trợ import từ Excel, xuất file .fg, thuộc hệ thống giáo dục FPT.">
+    <meta name="keywords"
+        content="Fuge, Nhập điểm Fuge FPT, FPT Polytechnic, hệ thống giáo dục FPT, quản lý điểm, grade viewer, nhập điểm sinh viên, FPT, điểm số FPT">
+    <meta name="author" content="FPT Polytechnic">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Fuge - Hệ thống Nhập điểm FPT Polytechnic">
+    <meta property="og:description"
+        content="Công cụ nhập điểm và quản lý điểm số sinh viên cho FPT Polytechnic. Hỗ trợ import từ Excel, xuất file .fg.">
+    <meta property="og:image" content="favicon.png">
+    <meta property="og:locale" content="vi_VN">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Fuge - Hệ thống Nhập điểm FPT Polytechnic">
+    <meta name="twitter:description" content="Công cụ nhập điểm và quản lý điểm số sinh viên cho FPT Polytechnic.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://huuhuybn.github.io/fuge/">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
     <link rel="stylesheet" href="index.css">
+
     <!-- SheetJS Library for Excel Reading -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
@@ -17,8 +50,8 @@
     <div class="app-container">
         <!-- Header Section -->
         <header class="main-header">
-            <h1>FG Student Grade Viewer</h1>
-            <p>Upload your .fg file to decode and view student results uniquely.</p>
+            <h1>Fuge - Grade Viewer</h1>
+            <p>Hệ thống nhập điểm dành cho giảng viên FPT Polytechnic</p>
             <div class="header-buttons">
                 <button id="exportBtn" class="btn hidden">Export .FG</button>
             </div>
@@ -28,7 +61,7 @@
         <section class="upload-section">
             <div class="file-drop-area" id="dropArea">
                 <span class="icon">📂</span>
-                <span class="file-msg">Drag & Drop your .fg file here or click to browse</span>
+                <span class="file-msg">Kéo thả file .fg vào đây hoặc click để chọn file</span>
                 <input class="file-input" type="file" id="fileInput" accept=".fg">
             </div>
             <div id="errorMsg" class="error-message hidden"></div>
@@ -38,7 +71,7 @@
         <main id="mainContent" class="hidden">
             <!-- Global Semester Info -->
             <div class="semester-badge">
-                <span class="label">SEMESTER</span>
+                <span class="label">HỌC KỲ</span>
                 <span id="semesterVal" class="value">---</span>
             </div>
 
@@ -49,9 +82,9 @@
                         📊 Import Excel
                         <input type="file" id="excelInput" accept=".xlsx,.xls,.csv" hidden>
                     </label>
-                    <span id="excelFileName" class="excel-file-name">No file selected</span>
+                    <span id="excelFileName" class="excel-file-name">Chưa chọn file</span>
                 </div>
-                <button id="applyImportBtn" class="btn btn-success hidden">Apply Import</button>
+                <button id="applyImportBtn" class="btn btn-success hidden">Áp dụng Import</button>
             </div>
 
             <!-- Tabs Navigation -->
@@ -66,11 +99,11 @@
                 <!-- Class Details -->
                 <div class="class-meta">
                     <div class="meta-item">
-                        <span class="meta-label">Subject</span>
+                        <span class="meta-label">Môn học</span>
                         <span id="subjectVal" class="meta-value">---</span>
                     </div>
                     <div class="meta-item">
-                        <span class="meta-label">Class ID</span>
+                        <span class="meta-label">Mã lớp</span>
                         <span id="classVal" class="meta-value">---</span>
                     </div>
                 </div>
@@ -92,6 +125,11 @@
                 </div>
             </div>
         </main>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <p>Fuge © 2026 - FPT Polytechnic | Hệ thống giáo dục FPT</p>
+        </footer>
     </div>
 
     <script src="script.js"></script>
