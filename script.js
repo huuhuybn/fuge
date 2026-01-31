@@ -203,37 +203,44 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // --- Build Header based on the student with the most grade components ---
-        let schemaStudent = studentsNodeList[0];
-        let maxComponents = 0;
-
+        // --- Build Header based on ALL students (Union of all columns) ---
+        // Collect all unique component names
+        const allComponents = new Set();
         studentsNodeList.forEach(student => {
-            const comps = student.querySelectorAll("GradeComponent");
-            if (comps.length > maxComponents) {
-                maxComponents = comps.length;
-                schemaStudent = student;
-            }
+            const comps = student.querySelectorAll("GradeComponent > Component");
+            comps.forEach(c => allComponents.add(c.textContent.trim()));
         });
 
-        const gradeComponents = schemaStudent.querySelectorAll("GradeComponent");
+        // Convert Set to Array and Sort (optional, but good for consistency)
+        // Ideally we want to preserve the order they appear in XML if possible, 
+        // but since they might be sparse, a canonical order is hard without a definition.
+        // We will collect them in order of appearance.
+        const gradeLabels = [];
+        const seenComponents = new Set();
+
+        studentsNodeList.forEach(student => {
+            const comps = student.querySelectorAll("GradeComponent > Component");
+            comps.forEach(c => {
+                const name = c.textContent.trim();
+                if (!seenComponents.has(name)) {
+                    seenComponents.add(name);
+                    gradeLabels.push(name);
+                }
+            });
+        });
 
         const headerRow = document.createElement('tr');
 
         const headers = ['Roll Number', 'Full Name'];
-        // Add dynamic grade headers
-        const gradeLabels = [];
-        gradeComponents.forEach(comp => {
-            let label = comp.querySelector("Component")?.textContent || "Grade";
-
-            // Clean up label
-            label = label.replace(/\[Đánh giá quá trình\]/g, '')
+        // Prepare display labels
+        const displayLabels = gradeLabels.map(label => {
+            return label.replace(/\[Đánh giá quá trình\]/g, '')
                 .replace(/\[Đánh giá cuối học phần\]/g, '')
                 .replace(/Đánh giá Assignment/g, '')
                 .trim();
-
-            gradeLabels.push(label);
-            headers.push(label);
         });
+
+        headers.push(...displayLabels);
 
         headers.forEach(text => {
             const th = document.createElement('th');
@@ -256,16 +263,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 tr.appendChild(td);
             });
 
-            // Grades
+            // Grades - Map by Component Name for easy lookup
+            const studentGradesMap = new Map();
             const sGrades = student.querySelectorAll("GradeComponent");
+            sGrades.forEach(gComp => {
+                const cName = gComp.querySelector("Component")?.textContent.trim();
+                if (cName) {
+                    studentGradesMap.set(cName, gComp);
+                }
+            });
 
-            if (sGrades.length === gradeLabels.length) {
-                sGrades.forEach(gComp => {
+            // Fill columns based on the master gradeLabels list
+            gradeLabels.forEach(label => {
+                const td = document.createElement('td');
+
+                if (studentGradesMap.has(label)) {
+                    const gComp = studentGradesMap.get(label);
                     const gradeNode = gComp.querySelector("Grade");
                     const val = gradeNode?.textContent;
                     const isNil = gradeNode?.getAttribute("xsi:nil") === "true";
-
-                    const td = document.createElement('td');
 
                     // Create Input
                     const input = document.createElement('input');
@@ -273,39 +289,36 @@ document.addEventListener('DOMContentLoaded', () => {
                     input.className = 'grade-input';
                     input.value = (isNil || !val) ? "" : val;
 
-                    // Visual feedback for grades
                     updateInputStyle(input);
 
-                    // Event: Update XML on change
                     input.addEventListener('input', (e) => {
                         const newValue = e.target.value.trim();
-
                         if (newValue === "") {
                             gradeNode.setAttribute("xsi:nil", "true");
                             gradeNode.textContent = "";
                         } else {
-                            // Basic validation: only allow numbers or empty string
                             if (isValidGrade(newValue)) {
                                 gradeNode.removeAttribute("xsi:nil");
                                 gradeNode.textContent = newValue;
-                            } else {
-                                // Optionally, provide user feedback for invalid input
-                                // For now, the style will indicate it's not a valid number
                             }
                         }
                         updateInputStyle(e.target);
                     });
 
                     td.appendChild(input);
-                    tr.appendChild(td);
-                });
-            } else {
-                gradeLabels.forEach(() => {
-                    const td = document.createElement('td');
-                    td.textContent = "?";
-                    tr.appendChild(td);
-                });
-            }
+                } else {
+                    // Student completely misses this component in XML
+                    // We render a disabled input or just empty text used to indicate 'N/A'
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'grade-input';
+                    input.value = "";
+                    input.disabled = true; // Cannot edit what doesn't exist in XML structure yet
+                    input.placeholder = "-";
+                    td.appendChild(input);
+                }
+                tr.appendChild(td);
+            });
 
             tbody.appendChild(tr);
         });
