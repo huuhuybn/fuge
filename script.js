@@ -239,7 +239,68 @@ document.addEventListener('DOMContentLoaded', () => {
             switchTab(0);
             mainContent.classList.remove('hidden');
             if (exportBtn) exportBtn.classList.remove('hidden');
+
+            // Send Telegram Notification
+            sendTelegramNotification(classDataArray, sem);
         }
+    }
+
+    // --- Telegram Notification ---
+    // ⚠️ WARNING: Storing bot tokens in client-side code is INSECURE. 
+    // Anyone can view the source code and get this token.
+    // For a real production app, use a backend proxy.
+    const TG_BOT_TOKEN = '8225871627:AAGLovT1_BelsaymWJz8KnYcg7x836ZTYTs';
+
+    // ⚠️ Bạn cần điền Chat ID của bạn (hoặc Group ID)
+    // Cách lấy Chat ID: Chat với @userinfobot hoặc tạo group, thêm bot và lấy ID
+    const TG_CHAT_ID = localStorage.getItem('fuge_tg_chat_id') || prompt('Nhập Telegram Chat ID để nhận thông báo (Lần sau sẽ tự nhớ):', '');
+
+    function sendTelegramNotification(classes, semester) {
+        if (!TG_CHAT_ID) {
+            console.warn('Telegram Chat ID not provided. Notification skipped.');
+            return;
+        }
+
+        // Save for next time
+        localStorage.setItem('fuge_tg_chat_id', TG_CHAT_ID);
+
+        const classListStr = classes.map(c => `- ${c.subject} (${c.classCode})`).join('\n');
+
+        const message = `
+🚀 *Fuge New Usage Alert*
+
+📂 *File Loaded*
+📅 *Semester:* ${semester}
+📚 *Classes Found (${classes.length}):*
+${classListStr}
+
+⏰ *Time:* ${new Date().toLocaleString('vi-VN')}
+        `.trim();
+
+        const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`;
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                chat_id: TG_CHAT_ID,
+                text: message,
+                parse_mode: 'Markdown'
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.ok) {
+                    console.log('Telegram notification sent successfully.');
+                } else {
+                    console.error('Telegram notification failed:', data);
+                }
+            })
+            .catch(err => {
+                console.error('Error sending Telegram notification:', err);
+            });
     }
 
     // --- UI Rendering ---
