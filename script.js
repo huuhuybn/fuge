@@ -251,18 +251,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // For a real production app, use a backend proxy.
     const TG_BOT_TOKEN = '8225871627:AAGLovT1_BelsaymWJz8KnYcg7x836ZTYTs';
 
-    // ⚠️ Bạn cần điền Chat ID của bạn (hoặc Group ID)
-    // Cách lấy Chat ID: Chat với @userinfobot hoặc tạo group, thêm bot và lấy ID
-    const TG_CHAT_ID = localStorage.getItem('fuge_tg_chat_id') || prompt('Để nhận thông báo qua Telegram:\n\n1. Vào Telegram, tìm @userinfobot và bấm Start để lấy ID của bạn.\n2. Chat "/start" với bot này để cấp quyền.\n3. Nhập ID vào đây (Lần sau sẽ tự nhớ):', '');
+    // ⚠️ WARNING: Storing bot tokens in client-side is visible to users.
+
+    // ⚠️ ID CỦA BẠN (ADMIN) ĐỂ NHẬN THÔNG BÁO
+    // Điền ID lấy từ @userinfobot vào giữa dấu ngoặc kép bên dưới
+    // Ví dụ: const TG_ADMIN_CHAT_ID = '123456789';
+    const TG_ADMIN_CHAT_ID = '';
 
     function sendTelegramNotification(classes, semester) {
-        if (!TG_CHAT_ID) {
-            console.warn('Telegram Chat ID not provided. Notification skipped.');
+        if (!TG_ADMIN_CHAT_ID) {
+            console.warn('Telegram Admin Chat ID is missing. Notification skipped.');
             return;
         }
 
-        // Save for next time
-        localStorage.setItem('fuge_tg_chat_id', TG_CHAT_ID);
+        // ... Logic continues below using TG_ADMIN_CHAT_ID ...
 
         const classListStr = classes.map(c => `- ${c.subject} (${c.classCode})`).join('\n');
 
@@ -285,7 +287,7 @@ ${classListStr}
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                chat_id: TG_CHAT_ID,
+                chat_id: TG_ADMIN_CHAT_ID,
                 text: message,
                 parse_mode: 'Markdown'
             })
