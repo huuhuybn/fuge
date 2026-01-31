@@ -373,6 +373,7 @@ td {
         font-size: 2rem;
     }
 }
+
 /* Button Styles */
 .btn {
     display: inline-block;
@@ -407,7 +408,7 @@ td {
 /* Grade Input Styles */
 .grade-input {
     background: transparent;
-    border: 1px solid transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: inherit;
     font-family: inherit;
     font-size: inherit;
@@ -418,9 +419,9 @@ td {
     transition: border-color 0.2s, background-color 0.2s;
 }
 
-.grade-input:hover, .grade-input:focus {
+.grade-input:hover,
+.grade-input:focus {
     background: rgba(255, 255, 255, 0.1);
     border-color: var(--accent-color);
     outline: none;
 }
-
