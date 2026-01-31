@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- State ---
     let classDataArray = [];
     let currentXMLDoc = null; // Store the full XML Document for export
+    let globalGradeLabels = []; // All unique grade component names from entire file
 
     // --- Drag & Drop Events ---
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
@@ -154,6 +155,26 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
+        // --- Build GLOBAL grade labels from ALL classes ---
+        // This ensures classes with empty <Grades> still have columns
+        globalGradeLabels = [];
+        const seenLabels = new Set();
+
+        // Scan ALL students in ALL classes
+        subjectClassNodes.forEach(node => {
+            const students = node.querySelectorAll("Student");
+            students.forEach(student => {
+                const comps = student.querySelectorAll("GradeComponent > Component");
+                comps.forEach(c => {
+                    const name = c.textContent.trim();
+                    if (!seenLabels.has(name)) {
+                        seenLabels.add(name);
+                        globalGradeLabels.push(name);
+                    }
+                });
+            });
+        });
+
         if (classDataArray.length > 0) {
             renderTabs();
             // Select first tab by default
@@ -203,31 +224,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // --- Build Header based on ALL students (Union of all columns) ---
-        // Collect all unique component names
-        const allComponents = new Set();
-        studentsNodeList.forEach(student => {
-            const comps = student.querySelectorAll("GradeComponent > Component");
-            comps.forEach(c => allComponents.add(c.textContent.trim()));
-        });
-
-        // Convert Set to Array and Sort (optional, but good for consistency)
-        // Ideally we want to preserve the order they appear in XML if possible, 
-        // but since they might be sparse, a canonical order is hard without a definition.
-        // We will collect them in order of appearance.
-        const gradeLabels = [];
-        const seenComponents = new Set();
-
-        studentsNodeList.forEach(student => {
-            const comps = student.querySelectorAll("GradeComponent > Component");
-            comps.forEach(c => {
-                const name = c.textContent.trim();
-                if (!seenComponents.has(name)) {
-                    seenComponents.add(name);
-                    gradeLabels.push(name);
-                }
-            });
-        });
+        // --- Use GLOBAL grade labels (computed from ALL classes) ---
+        const gradeLabels = globalGradeLabels;
 
         const headerRow = document.createElement('tr');
 
