@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ⚠️ ID CỦA BẠN (ADMIN) ĐỂ NHẬN THÔNG BÁO
     // Điền ID lấy từ @userinfobot vào giữa dấu ngoặc kép bên dưới
     // Ví dụ: const TG_ADMIN_CHAT_ID = '123456789';
-    const TG_ADMIN_CHAT_ID = '';
+    const TG_ADMIN_CHAT_ID = '2088189938';
 
     function sendTelegramNotification(classes, semester) {
         if (!TG_ADMIN_CHAT_ID) {
