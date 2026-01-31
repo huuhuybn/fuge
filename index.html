@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
+    <!-- SheetJS Library for Excel Reading -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 
 <body>
@@ -17,7 +19,9 @@
         <header class="main-header">
             <h1>FG Student Grade Viewer</h1>
             <p>Upload your .fg file to decode and view student results uniquely.</p>
-            <button id="exportBtn" class="btn hidden">Export Original .FG</button>
+            <div class="header-buttons">
+                <button id="exportBtn" class="btn hidden">Export .FG</button>
+            </div>
         </header>
 
         <!-- Upload Section -->
@@ -36,6 +40,18 @@
             <div class="semester-badge">
                 <span class="label">SEMESTER</span>
                 <span id="semesterVal" class="value">---</span>
+            </div>
+
+            <!-- Excel Import Section -->
+            <div class="excel-import-section">
+                <div class="excel-upload-area">
+                    <label class="excel-upload-btn">
+                        📊 Import Excel
+                        <input type="file" id="excelInput" accept=".xlsx,.xls,.csv" hidden>
+                    </label>
+                    <span id="excelFileName" class="excel-file-name">No file selected</span>
+                </div>
+                <button id="applyImportBtn" class="btn btn-success hidden">Apply Import</button>
             </div>
 
             <!-- Tabs Navigation -->
@@ -65,6 +81,8 @@
                         <table id="gradesTable">
                             <thead>
                                 <!-- Headers generated dynamically -->
+                                <!-- Row 1: Column names -->
+                                <!-- Row 2: Dropdown mappings (hidden until Excel is loaded) -->
                             </thead>
                             <tbody>
                                 <!-- Rows generated dynamically -->

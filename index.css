@@ -425,3 +425,88 @@ td {
     border-color: var(--accent-color);
     outline: none;
 }
+/* Excel Import Section */
+.excel-import-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.excel-upload-area {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.excel-upload-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    color: white;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.excel-upload-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.excel-file-name {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+}
+
+.btn-success:hover {
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4) !important;
+}
+
+/* Header Buttons */
+.header-buttons {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    justify-content: center;
+}
+
+/* Mapping Row */
+.mapping-row {
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.mapping-row td {
+    padding: 0.5rem;
+}
+
+.mapping-select {
+    width: 100%;
+    padding: 0.4rem;
+    background: rgba(30, 41, 59, 0.9);
+    color: #e2e8f0;
+    border: 1px solid var(--glass-border);
+    border-radius: 0.25rem;
+    font-family: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.mapping-select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+

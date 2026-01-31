@@ -21,10 +21,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Export
     const exportBtn = document.getElementById('exportBtn');
 
+    // Excel Import Elements
+    const excelInput = document.getElementById('excelInput');
+    const excelFileName = document.getElementById('excelFileName');
+    const applyImportBtn = document.getElementById('applyImportBtn');
+
     // --- State ---
     let classDataArray = [];
     let currentXMLDoc = null; // Store the full XML Document for export
     let globalGradeLabels = []; // All unique grade component names from entire file
+    let currentTabIndex = 0; // Track current tab
+
+    // Excel Import State
+    let excelData = []; // Array of objects from Excel rows
+    let excelColumns = []; // Array of column names from Excel
 
     // --- Drag & Drop Events ---
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
@@ -45,6 +55,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Export Event
     if (exportBtn) {
         exportBtn.addEventListener('click', exportOriginalFG);
+    }
+
+    // Excel Import Events
+    if (excelInput) {
+        excelInput.addEventListener('change', handleExcelUpload);
+    }
+    if (applyImportBtn) {
+        applyImportBtn.addEventListener('click', applyExcelImport);
     }
 
     function handleDrop(e) {
@@ -238,6 +256,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function switchTab(index) {
+        currentTabIndex = index; // Track current tab
+
         // Update Buttons
         const buttons = tabsHeader.children;
         for (let i = 0; i < buttons.length; i++) {
@@ -286,6 +306,47 @@ document.addEventListener('DOMContentLoaded', () => {
             headerRow.appendChild(th);
         });
         thead.appendChild(headerRow);
+
+        // --- Mapping Row (for Excel import) ---
+        const mappingRow = document.createElement('tr');
+        mappingRow.className = 'mapping-row';
+        mappingRow.id = 'mappingRow';
+
+        // If no Excel loaded, hide the row
+        if (excelColumns.length === 0) {
+            mappingRow.style.display = 'none';
+        }
+
+        headers.forEach((header, idx) => {
+            const td = document.createElement('td');
+            const select = document.createElement('select');
+            select.className = 'mapping-select';
+            select.dataset.columnIndex = idx;
+            select.dataset.columnName = idx < 2 ? header : gradeLabels[idx - 2]; // Store original label for grade columns
+
+            // Default option
+            const defaultOpt = document.createElement('option');
+            defaultOpt.value = '';
+            defaultOpt.textContent = '-- Không ghép --';
+            select.appendChild(defaultOpt);
+
+            // Add Excel columns as options
+            excelColumns.forEach(col => {
+                const opt = document.createElement('option');
+                opt.value = col;
+                opt.textContent = col;
+                // Auto-select if names match (case-insensitive, partial match)
+                if (header.toLowerCase().includes(col.toLowerCase()) ||
+                    col.toLowerCase().includes(header.toLowerCase())) {
+                    opt.selected = true;
+                }
+                select.appendChild(opt);
+            });
+
+            td.appendChild(select);
+            mappingRow.appendChild(td);
+        });
+        thead.appendChild(mappingRow);
 
         // --- Build Rows ---
         studentsNodeList.forEach(student => {
@@ -416,5 +477,151 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error(err);
             showError("Export failed: " + err.message);
         }
+    }
+
+    // --- Excel Import Functions ---
+    function handleExcelUpload(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        excelFileName.textContent = file.name;
+
+        const reader = new FileReader();
+        reader.onload = function (evt) {
+            try {
+                const data = new Uint8Array(evt.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+
+                // Use first sheet
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert to JSON (array of objects)
+                excelData = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
+
+                if (excelData.length === 0) {
+                    showError("Excel file is empty or has no data rows.");
+                    return;
+                }
+
+                // Get column names from first row keys
+                excelColumns = Object.keys(excelData[0]);
+
+                // Show Apply button
+                applyImportBtn.classList.remove('hidden');
+
+                // Re-render table to show mapping dropdowns
+                if (classDataArray.length > 0) {
+                    renderTable(classDataArray[currentTabIndex].students);
+                }
+
+                console.log("Excel loaded:", excelColumns, excelData.length + " rows");
+
+            } catch (err) {
+                console.error(err);
+                showError("Error reading Excel file: " + err.message);
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    function applyExcelImport() {
+        if (excelData.length === 0) {
+            showError("No Excel data to import.");
+            return;
+        }
+
+        // Get current students from current tab
+        const currentStudents = classDataArray[currentTabIndex].students;
+        if (!currentStudents || currentStudents.length === 0) {
+            showError("No students in current class.");
+            return;
+        }
+
+        // Get mappings from dropdown selects
+        const mappingRow = document.getElementById('mappingRow');
+        if (!mappingRow) return;
+
+        const selects = mappingRow.querySelectorAll('.mapping-select');
+        const columnMappings = {}; // { gradeLabel: excelColumnName }
+
+        selects.forEach(select => {
+            const colIdx = parseInt(select.dataset.columnIndex);
+            const colName = select.dataset.columnName; // Original grade label
+            const excelCol = select.value;
+
+            if (excelCol && colIdx >= 2) { // Skip Roll Number and Name columns
+                columnMappings[colName] = excelCol;
+            }
+        });
+
+        // Find the Roll Number column mapping
+        let rollExcelCol = null;
+        selects.forEach(select => {
+            if (parseInt(select.dataset.columnIndex) === 0 && select.value) {
+                rollExcelCol = select.value;
+            }
+        });
+
+        if (!rollExcelCol) {
+            // Try to auto-detect Roll column
+            const rollVariants = ['roll', 'mssv', 'masv', 'ma sv', 'roll number', 'rollnumber', 'student id'];
+            for (const col of excelColumns) {
+                if (rollVariants.some(v => col.toLowerCase().includes(v))) {
+                    rollExcelCol = col;
+                    break;
+                }
+            }
+        }
+
+        if (!rollExcelCol) {
+            showError("Please select the Roll Number column mapping in the dropdown.");
+            return;
+        }
+
+        // Build a map from Roll Number to Excel row data
+        const excelRollMap = new Map();
+        excelData.forEach(row => {
+            const roll = String(row[rollExcelCol] || '').trim().toUpperCase();
+            if (roll) {
+                excelRollMap.set(roll, row);
+            }
+        });
+
+        // Apply data to students
+        let updatedCount = 0;
+        currentStudents.forEach(student => {
+            const studentRoll = student.querySelector("Roll")?.textContent.trim().toUpperCase() || '';
+
+            if (excelRollMap.has(studentRoll)) {
+                const excelRow = excelRollMap.get(studentRoll);
+
+                // For each column mapping, update the student's grade
+                for (const [gradeLabel, excelCol] of Object.entries(columnMappings)) {
+                    const excelValue = excelRow[excelCol];
+                    if (excelValue !== undefined && excelValue !== '') {
+                        // Find the GradeComponent in XML
+                        const gradeComps = student.querySelectorAll("GradeComponent");
+                        gradeComps.forEach(gComp => {
+                            const compName = gComp.querySelector("Component")?.textContent.trim();
+                            if (compName === gradeLabel) {
+                                const gradeNode = gComp.querySelector("Grade");
+                                if (gradeNode) {
+                                    gradeNode.removeAttribute("xsi:nil");
+                                    gradeNode.textContent = String(excelValue);
+                                    updatedCount++;
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        });
+
+        // Re-render table to show updated values
+        renderTable(currentStudents);
+
+        // Show success message
+        alert(`Import thành công! Đã cập nhật ${updatedCount} ô điểm.`);
     }
 });
