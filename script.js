@@ -203,9 +203,19 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // --- Build Header based on the first student ---
-        const firstStudent = studentsNodeList[0];
-        const gradeComponents = firstStudent.querySelectorAll("GradeComponent");
+        // --- Build Header based on the student with the most grade components ---
+        let schemaStudent = studentsNodeList[0];
+        let maxComponents = 0;
+
+        studentsNodeList.forEach(student => {
+            const comps = student.querySelectorAll("GradeComponent");
+            if (comps.length > maxComponents) {
+                maxComponents = comps.length;
+                schemaStudent = student;
+            }
+        });
+
+        const gradeComponents = schemaStudent.querySelectorAll("GradeComponent");
 
         const headerRow = document.createElement('tr');
 
