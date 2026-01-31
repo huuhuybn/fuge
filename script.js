@@ -175,6 +175,46 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
+        // --- NORMALIZE: Add missing GradeComponents to ALL students ---
+        // This ensures every student has a complete grade schema
+        const XSI_NS = "http://www.w3.org/2001/XMLSchema-instance";
+
+        subjectClassNodes.forEach(node => {
+            const students = node.querySelectorAll("Student");
+            students.forEach(student => {
+                // Get or create Grades element
+                let gradesNode = student.querySelector("Grades");
+                if (!gradesNode) {
+                    gradesNode = xmlDoc.createElement("Grades");
+                    student.appendChild(gradesNode);
+                }
+
+                // Get existing component names for this student
+                const existingComps = new Set();
+                student.querySelectorAll("GradeComponent > Component").forEach(c => {
+                    existingComps.add(c.textContent.trim());
+                });
+
+                // Add missing components
+                globalGradeLabels.forEach(label => {
+                    if (!existingComps.has(label)) {
+                        // Create new GradeComponent
+                        const gradeComp = xmlDoc.createElement("GradeComponent");
+
+                        const compNode = xmlDoc.createElement("Component");
+                        compNode.textContent = label;
+                        gradeComp.appendChild(compNode);
+
+                        const gradeNode = xmlDoc.createElement("Grade");
+                        gradeNode.setAttributeNS(XSI_NS, "xsi:nil", "true");
+                        gradeComp.appendChild(gradeNode);
+
+                        gradesNode.appendChild(gradeComp);
+                    }
+                });
+            });
+        });
+
         if (classDataArray.length > 0) {
             renderTabs();
             // Select first tab by default
@@ -274,9 +314,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Fill columns based on the master gradeLabels list
             gradeLabels.forEach(label => {
                 const td = document.createElement('td');
+                const gComp = studentGradesMap.get(label);
 
-                if (studentGradesMap.has(label)) {
-                    const gComp = studentGradesMap.get(label);
+                if (gComp) {
                     const gradeNode = gComp.querySelector("Grade");
                     const val = gradeNode?.textContent;
                     const isNil = gradeNode?.getAttribute("xsi:nil") === "true";
@@ -305,13 +345,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     td.appendChild(input);
                 } else {
-                    // Student completely misses this component in XML
-                    // We render a disabled input or just empty text used to indicate 'N/A'
+                    // Fallback (shouldn't happen after normalization)
                     const input = document.createElement('input');
                     input.type = 'text';
                     input.className = 'grade-input';
                     input.value = "";
-                    input.disabled = true; // Cannot edit what doesn't exist in XML structure yet
                     input.placeholder = "-";
                     td.appendChild(input);
                 }
