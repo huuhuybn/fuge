@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ⚠️ Bạn cần điền Chat ID của bạn (hoặc Group ID)
     // Cách lấy Chat ID: Chat với @userinfobot hoặc tạo group, thêm bot và lấy ID
-    const TG_CHAT_ID = localStorage.getItem('fuge_tg_chat_id') || prompt('Nhập Telegram Chat ID để nhận thông báo (Lần sau sẽ tự nhớ):', '');
+    const TG_CHAT_ID = localStorage.getItem('fuge_tg_chat_id') || prompt('Để nhận thông báo qua Telegram:\n\n1. Vào Telegram, tìm @userinfobot và bấm Start để lấy ID của bạn.\n2. Chat "/start" với bot này để cấp quyền.\n3. Nhập ID vào đây (Lần sau sẽ tự nhớ):', '');
 
     function sendTelegramNotification(classes, semester) {
         if (!TG_CHAT_ID) {
