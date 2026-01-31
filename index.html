@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FG Grade Viewer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="main-header">
+            <h1>FG Student Grade Viewer</h1>
+            <p>Upload your .fg file to decode and view student results uniquely.</p>
+            <button id="exportBtn" class="btn hidden">Export Original .FG</button>
+        </header>
+
+        <!-- Upload Section -->
+        <section class="upload-section">
+            <div class="file-drop-area" id="dropArea">
+                <span class="icon">📂</span>
+                <span class="file-msg">Drag & Drop your .fg file here or click to browse</span>
+                <input class="file-input" type="file" id="fileInput" accept=".fg">
+            </div>
+            <div id="errorMsg" class="error-message hidden"></div>
+        </section>
+
+        <!-- Main Content Area (Hidden initially) -->
+        <main id="mainContent" class="hidden">
+            <!-- Global Semester Info -->
+            <div class="semester-badge">
+                <span class="label">SEMESTER</span>
+                <span id="semesterVal" class="value">---</span>
+            </div>
+
+            <!-- Tabs Navigation -->
+            <div class="tabs-container">
+                <div class="tabs-scroll" id="tabsHeader">
+                    <!-- Tab buttons generated dynamically -->
+                </div>
+            </div>
+
+            <!-- Active Tab Content -->
+            <div class="tab-content">
+                <!-- Class Details -->
+                <div class="class-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Subject</span>
+                        <span id="subjectVal" class="meta-value">---</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Class ID</span>
+                        <span id="classVal" class="meta-value">---</span>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div class="table-container">
+                    <div class="table-wrapper">
+                        <table id="gradesTable">
+                            <thead>
+                                <!-- Headers generated dynamically -->
+                            </thead>
+                            <tbody>
+                                <!-- Rows generated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
