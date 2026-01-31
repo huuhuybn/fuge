@@ -6,26 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- SEO Meta Tags -->
-    <title>Fuge - Hệ thống Nhập điểm FPT Polytechnic | Grade Viewer</title>
+    <title>Fuge - Công cụ Nhập điểm File .FG | Grade Viewer</title>
     <meta name="description"
-        content="Fuge - Công cụ nhập điểm và quản lý điểm số sinh viên cho FPT Polytechnic. Hỗ trợ import từ Excel, xuất file .fg, thuộc hệ thống giáo dục FPT.">
-    <meta name="keywords"
-        content="Fuge, Nhập điểm Fuge FPT, FPT Polytechnic, hệ thống giáo dục FPT, quản lý điểm, grade viewer, nhập điểm sinh viên, FPT, điểm số FPT">
-    <meta name="author" content="FPT Polytechnic">
+        content="Fuge - Công cụ bên thứ 3 hỗ trợ đọc, chỉnh sửa và xuất file điểm .fg. Import từ Excel, chỉnh sửa trực tiếp. KHÔNG phải công cụ chính thức.">
+    <meta name="keywords" content="Fuge, nhập điểm, file fg, grade viewer, công cụ điểm, import excel, bên thứ 3">
+    <meta name="author" content="Fuge Developer">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Fuge - Hệ thống Nhập điểm FPT Polytechnic">
+    <meta property="og:title" content="Fuge - Công cụ Nhập điểm File .FG">
     <meta property="og:description"
-        content="Công cụ nhập điểm và quản lý điểm số sinh viên cho FPT Polytechnic. Hỗ trợ import từ Excel, xuất file .fg.">
+        content="Công cụ bên thứ 3 hỗ trợ đọc và chỉnh sửa file .fg. Không phải công cụ chính thức.">
     <meta property="og:image" content="favicon.png">
     <meta property="og:locale" content="vi_VN">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Fuge - Hệ thống Nhập điểm FPT Polytechnic">
-    <meta name="twitter:description" content="Công cụ nhập điểm và quản lý điểm số sinh viên cho FPT Polytechnic.">
+    <meta name="twitter:title" content="Fuge - Công cụ Nhập điểm File .FG">
+    <meta name="twitter:description" content="Công cụ bên thứ 3 hỗ trợ đọc và chỉnh sửa file .fg.">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png">
@@ -51,9 +50,9 @@
         "@context": "https://schema.org",
         "@type": "WebApplication",
         "name": "Fuge - Grade Viewer",
-        "description": "Công cụ nhập điểm và quản lý điểm số sinh viên cho FPT Polytechnic. Hỗ trợ import từ Excel, xuất file .fg.",
+        "description": "Công cụ bên thứ 3 hỗ trợ đọc, chỉnh sửa file điểm .fg. KHÔNG phải công cụ chính thức của bất kỳ tổ chức nào.",
         "url": "https://huuhuybn.github.io/fuge/",
-        "applicationCategory": "EducationalApplication",
+        "applicationCategory": "UtilityApplication",
         "operatingSystem": "Web Browser",
         "offers": {
             "@type": "Offer",
@@ -61,40 +60,19 @@
             "priceCurrency": "VND"
         },
         "author": {
-            "@type": "Organization",
-            "name": "FPT Polytechnic"
+            "@type": "Person",
+            "name": "Fuge Developer"
         },
         "inLanguage": "vi",
         "softwareVersion": "1.0",
         "featureList": [
             "Đọc và giải mã file .fg",
-            "Hiển thị bảng điểm sinh viên",
-            "Chỉnh sửa điểm trực tiếp",
-            "Import điểm từ file Excel",
-            "Xuất file .fg sau khi chỉnh sửa",
-            "Hỗ trợ nhiều lớp học trong cùng file"
-        ]
-    }
-    </script>
-
-    <!-- Structured Data: Organization -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "EducationalOrganization",
-        "name": "FPT Polytechnic",
-        "alternateName": "Cao đẳng FPT Polytechnic",
-        "url": "https://caodang.fpt.edu.vn/",
-        "logo": "https://caodang.fpt.edu.vn/wp-content/uploads/logo-fpt-polytechnic.png",
-        "parentOrganization": {
-            "@type": "Organization",
-            "name": "Tổ chức Giáo dục FPT",
-            "url": "https://fpt.edu.vn/"
-        },
-        "sameAs": [
-            "https://www.facebook.com/faboratory",
-            "https://www.youtube.com/@FPTPolytechnic"
-        ]
+            "Hiển thị bảng điểm",
+            "Chỉnh sửa trực tiếp",
+            "Import từ file Excel",
+            "Xuất file .fg sau khi chỉnh sửa"
+        ],
+        "disclaimer": "Đây là công cụ bên thứ 3, không liên quan đến bất kỳ tổ chức chính thức nào."
     }
     </script>
 
@@ -109,31 +87,23 @@
                 "name": "Fuge là gì?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Fuge là công cụ hỗ trợ giảng viên FPT Polytechnic nhập và quản lý điểm số sinh viên. Fuge cho phép đọc file .fg, hiển thị bảng điểm, chỉnh sửa trực tiếp và xuất file sau khi hoàn thành."
+                    "text": "Fuge là công cụ BÊN THỨ 3 hỗ trợ đọc, chỉnh sửa và xuất file điểm định dạng .fg. Đây KHÔNG PHẢI công cụ chính thức của bất kỳ tổ chức nào."
                 }
             },
             {
                 "@type": "Question",
-                "name": "Làm thế nào để sử dụng Fuge?",
+                "name": "Fuge có phải công cụ chính thức không?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Bước 1: Kéo thả hoặc chọn file .fg của bạn. Bước 2: Xem và chỉnh sửa điểm số trong bảng. Bước 3: (Tùy chọn) Import điểm từ file Excel. Bước 4: Bấm Export .FG để tải file đã chỉnh sửa."
+                    "text": "KHÔNG. Fuge là công cụ cá nhân, bên thứ 3, không liên quan đến bất kỳ trường học hay tổ chức giáo dục chính thức nào."
                 }
             },
             {
                 "@type": "Question",
-                "name": "File .fg là gì?",
+                "name": "Ai chịu trách nhiệm khi sử dụng Fuge?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "File .fg là định dạng file điểm số được sử dụng trong hệ thống quản lý đào tạo của FPT Polytechnic. File này chứa thông tin điểm của sinh viên theo từng lớp học và học kỳ."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Fuge có hỗ trợ import từ Excel không?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Có. Fuge hỗ trợ import điểm từ file Excel (.xlsx, .xls, .csv). Bạn chỉ cần upload file Excel, chọn cột tương ứng và bấm Áp dụng Import để điền điểm tự động theo mã sinh viên."
+                    "text": "Người dùng TỰ CHỊU TRÁCH NHIỆM HOÀN TOÀN về mọi hậu quả khi sử dụng. Tác giả không chịu bất kỳ trách nhiệm nào về mất mát dữ liệu, lỗi, hoặc thiệt hại phát sinh."
                 }
             },
             {
@@ -141,7 +111,7 @@
                 "name": "Dữ liệu có được gửi lên server không?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Không. Fuge hoạt động hoàn toàn trên trình duyệt của bạn (client-side). Mọi dữ liệu được xử lý cục bộ và không được gửi đi bất cứ đâu, đảm bảo an toàn thông tin."
+                    "text": "Không. Fuge hoạt động hoàn toàn trên trình duyệt của bạn (client-side). Mọi dữ liệu được xử lý cục bộ và không được gửi đi bất cứ đâu."
                 }
             },
             {
@@ -149,36 +119,8 @@
                 "name": "Fuge có miễn phí không?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Có. Fuge là công cụ miễn phí dành cho giảng viên FPT Polytechnic và thuộc hệ thống giáo dục FPT."
+                    "text": "Có. Fuge là công cụ miễn phí nhưng được cung cấp NGUYÊN TRẠNG (as-is) mà không có bất kỳ bảo đảm nào."
                 }
-            }
-        ]
-    }
-    </script>
-
-    <!-- Structured Data: BreadcrumbList -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "FPT Education",
-                "item": "https://fpt.edu.vn/"
-            },
-            {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "FPT Polytechnic",
-                "item": "https://caodang.fpt.edu.vn/"
-            },
-            {
-                "@type": "ListItem",
-                "position": 3,
-                "name": "Fuge - Grade Viewer",
-                "item": "https://huuhuybn.github.io/fuge/"
             }
         ]
     }
@@ -211,7 +153,8 @@
         <!-- Header Section -->
         <header class="main-header">
             <h1>Fuge - Grade Viewer</h1>
-            <p>Hệ thống nhập điểm dành cho giảng viên FPT Polytechnic</p>
+            <p class="header-subtitle">Công cụ bên thứ 3 hỗ trợ đọc và chỉnh sửa file .fg</p>
+            <p class="header-warning">⚠️ Không phải công cụ chính thức - Tự chịu trách nhiệm khi sử dụng</p>
             <div class="header-buttons">
                 <button id="exportBtn" class="btn hidden">Export .FG</button>
             </div>
@@ -289,22 +232,27 @@
         <!-- About Section: What, Where, When, Why, How -->
         <section class="about-section">
             <h2 class="section-title">Giới thiệu về Fuge</h2>
+
+            <div class="warning-box critical">
+                🚨 <strong>Lưu ý quan trọng:</strong> Fuge là công cụ <strong>BÊN THỨ 3</strong>, không phải công cụ
+                chính thức. Người dùng <strong>TỰ CHỊU TRÁCH NHIỆM HOÀN TOÀN</strong> khi sử dụng.
+            </div>
+
             <div class="info-cards">
                 <!-- What -->
                 <div class="info-card">
                     <div class="card-icon">❓</div>
                     <h3>Fuge là gì?</h3>
-                    <p>Fuge là công cụ <strong>nhập và quản lý điểm số sinh viên</strong> dành cho giảng viên FPT
-                        Polytechnic. Ứng dụng cho phép đọc, chỉnh sửa và xuất file điểm định dạng <code>.fg</code> một
-                        cách dễ dàng.</p>
+                    <p>Fuge là công cụ <strong>bên thứ 3</strong> hỗ trợ đọc, chỉnh sửa và xuất file điểm định dạng
+                        <code>.fg</code>. Đây <strong>KHÔNG PHẢI</strong> công cụ chính thức của bất kỳ tổ chức nào.</p>
                 </div>
 
                 <!-- Who -->
                 <div class="info-card">
                     <div class="card-icon">👨‍🏫</div>
                     <h3>Dành cho ai?</h3>
-                    <p><strong>Giảng viên FPT Polytechnic</strong> - những người cần nhập điểm nhanh chóng, chính xác mà
-                        không cần thao tác thủ công trên hệ thống.</p>
+                    <p>Những người cần làm việc với file <code>.fg</code> và muốn có công cụ hỗ trợ chỉnh sửa.
+                        <strong>Lưu ý:</strong> Phải tự chịu trách nhiệm về dữ liệu của mình.</p>
                 </div>
 
                 <!-- Where -->
@@ -353,7 +301,8 @@
 
         <!-- Footer -->
         <footer class="main-footer">
-            <p>Fuge © 2026 - FPT Polytechnic | Hệ thống giáo dục FPT</p>
+            <p class="disclaimer-note">⚠️ Công cụ bên thứ 3 - Không liên quan đến bất kỳ tổ chức chính thức nào</p>
+            <p>Fuge © 2026 - Sử dụng là chấp nhận <a href="disclaimer.html">miễn trừ trách nhiệm</a></p>
             <div class="footer-links">
                 <a href="terms.html">Chính sách sử dụng</a>
                 <a href="disclaimer.html">Miễn trừ trách nhiệm</a>

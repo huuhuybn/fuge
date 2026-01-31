@@ -713,3 +713,47 @@ td {
     text-decoration: underline;
 }
 
+
+/* Warning Box */
+.warning-box {
+    background: rgba(234, 179, 8, 0.15);
+    border: 1px solid rgba(234, 179, 8, 0.4);
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    color: #fbbf24;
+    line-height: 1.6;
+}
+
+.warning-box.critical {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #f87171;
+}
+
+.warning-box strong {
+    color: inherit;
+}
+
+/* Disclaimer Note in Footer */
+.disclaimer-note {
+    color: #fbbf24;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+
+/* Header Warning */
+.header-subtitle {
+    color: #94a3b8;
+    margin-bottom: 0.25rem;
+}
+
+.header-warning {
+    color: #fbbf24;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
